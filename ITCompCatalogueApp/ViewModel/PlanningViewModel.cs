@@ -1,8 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace ITCompCatalogueApp.ViewModel
 {
@@ -19,8 +23,12 @@ namespace ITCompCatalogueApp.ViewModel
         public const string ListCoursesPropertyName = "ListCourses";
         public const string IsFilterVisiblePropertyName = "IsFilterVisible";
         public const string ListCoursesDatesPropertyName = "ListCoursesDates";
+        public const string BusyIndicatorPropertyName = "BusyIndicator";
         #endregion
         #region Fields
+        private bool _busyIndicator = false;
+        private readonly BackgroundWorker _backgroudWorker=new BackgroundWorker();
+        private ITCompTrainingDBEntities1 _dbContext = new ITCompTrainingDBEntities1();
         private ObservableCollection<Technology> _listTechnologies;
         private ObservableCollection<Cursu> _listCursus;
         private ObservableCollection<Category> _listCategories;
@@ -32,7 +40,25 @@ namespace ITCompCatalogueApp.ViewModel
         private ObservableCollection<CourDate> _listCoursesDates;
 
         #endregion
-        #region Properties            
+        #region Properties        
+        public bool BusyIndicator
+        {
+            get
+            {
+                return _busyIndicator;
+            }
+
+            set
+            {
+                if (_busyIndicator == value)
+                {
+                    return;
+                }
+
+                _busyIndicator = value;
+                RaisePropertyChanged(BusyIndicatorPropertyName);
+            }
+        }
         public ObservableCollection<Technology> ListTechnologies
         {
             get
@@ -224,11 +250,26 @@ namespace ITCompCatalogueApp.ViewModel
                     }));
             }
         }
-        
+
+        private RelayCommand _planningViewLoadedCommand;
+        public RelayCommand PlanningViewLoadedCommand
+        {
+            get
+            {
+                return _planningViewLoadedCommand
+                    ?? (_planningViewLoadedCommand = new RelayCommand(
+                    () =>
+                    {
+                        
+                        _backgroudWorker.RunWorkerAsync();
+                    }));
+            }
+        }
         #endregion
         #region Methods and Ctors
         public PlanningViewModel()
         {
+
             Messenger.Default.Register<NotificationMessage>(this, (m) =>
             {
                 switch (m.Notification)
@@ -241,7 +282,22 @@ namespace ITCompCatalogueApp.ViewModel
                         break;
                 }
             });
+            _backgroudWorker.DoWork += LoadCourses;
+            _backgroudWorker.RunWorkerCompleted += LoadingCompleted;
+
         }
+
+        private void LoadCourses(object sender, DoWorkEventArgs e)
+        {
+            BusyIndicator = true;
+            e.Result=_dbContext.Cours.ToList();            
+        }
+        private void LoadingCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            BusyIndicator = false;
+            ListCourses=new ObservableCollection<Cour>((List<Cour>) e.Result);
+        }
+
 
         public void LoadCoursesDatesAsync()
         {

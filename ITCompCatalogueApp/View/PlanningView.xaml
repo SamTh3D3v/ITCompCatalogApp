@@ -17,6 +17,12 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
+    <i:Interaction.Triggers >
+        <i:EventTrigger EventName="Loaded">
+            <command:EventToCommand Command="{Binding PlanningViewLoadedCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+        
+    </i:Interaction.Triggers>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -40,8 +46,6 @@
             <ComboBox ItemsSource="{Binding ListTechnologies}" SelectedItem="{Binding SelectedTechnology,Mode=TwoWay}" TabIndex="0" IsReadOnly="True" Background="WhiteSmoke"  IsEditable="True"   Grid.Column="1" HorizontalAlignment="Stretch"  Margin="5" Grid.Row="0" VerticalAlignment="Stretch" />
             <ComboBox ItemsSource="{Binding ListCategories}" SelectedItem="{Binding SelectedCategory,Mode=TwoWay}" TabIndex="1" IsReadOnly="True" Background="WhiteSmoke"  IsEditable="True"   Grid.Column="1" HorizontalAlignment="Stretch"  Margin="5" Grid.Row="1" VerticalAlignment="Stretch" />
             <ComboBox ItemsSource="{Binding ListCursus}" SelectedItem="{Binding SelectedCursus,Mode=TwoWay}" TabIndex="2" IsReadOnly="True" Background="WhiteSmoke"  IsEditable="True"   Grid.Column="1" HorizontalAlignment="Stretch"  Margin="5" Grid.Row="2" VerticalAlignment="Stretch" />
-
-
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -87,11 +91,20 @@
                 </DataGrid.Columns>
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
-                        <DataGrid IsReadOnly="True" Background="LightSkyBlue" AutoGenerateColumns="False" EnableRowVirtualization="True" 
-                                  ItemsSource="{Binding Path=SelectedItem.CursusCours,ElementName=DataGrid}">
+                        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" EnableRowVirtualization="True" 
+                                  ItemsSource="{Binding Path=SelectedItem.CourDates,ElementName=DataGrid}" CanUserAddRows="True">
+                            <DataGrid.Style>
+                                <Style TargetType="DataGrid">                                    
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=SelectedItem.CourDates.Count,ElementName=DataGrid}" Value="0">
+                                            <Setter Property="Height" Value="0"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.Style>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Cour.Code}" Header="Date Debut" Width="SizeToHeader" MinWidth="200"/>
-                                <DataGridTextColumn Binding="{Binding Cour.Intitule}" Header="Date Fin" Width="SizeToHeader" MinWidth="400"/>
+                                <DataGridTextColumn  Binding="{Binding DateDebut}" Header="Date Debut" Width="SizeToHeader" MinWidth="200"/>
+                                <DataGridTextColumn Binding="{Binding DateFin}" Header="Date Fin" Width="SizeToHeader" MinWidth="400"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </DataTemplate>
