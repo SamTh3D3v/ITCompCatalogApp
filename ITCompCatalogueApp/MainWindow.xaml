@@ -1,0 +1,77 @@
+﻿<Window x:Class="ITCompCatalogueApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.ignore.com"
+        mc:Ignorable="d ignore"  WindowStartupLocation="CenterScreen" WindowState="Maximized"    
+        Title="ITComp Catalogue"
+        
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/ResourceDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Ribbon Grid.Row="0" Background="LightGray"  FocusManager.IsFocusScope="False" ShowQuickAccessToolBarOnTop="False" >
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu Visibility="Collapsed"/>
+            </Ribbon.ApplicationMenu>
+            <RibbonTab Header="Accueil" >
+                <RibbonGroup Header="Cours" FocusManager.IsFocusScope="False" >
+                    <RibbonToggleButton x:Name="ListerCourTb" KeyTip="a"  LargeImageSource="Assets/course.png" Tag="ListerCour" Label="Lister" Command="{Binding ListCoucesCommand}" IsChecked="{Binding ListerCourTb,Mode=TwoWay}"/>
+                    <RibbonButton SmallImageSource="Assets/add.png" Tag="AjouterCour" Label="ajouter" Command="{Binding AjouterCourseCommand}" />
+                    <RibbonButton SmallImageSource="Assets/edit.png"  Tag="ModifierCour" Label="modifier" Command="{Binding ModifierCourseCommand}" IsEnabled="{Binding IsChecked,ElementName=ListerCourTb}" />
+                    <RibbonButton SmallImageSource="Assets/delete.png"  Tag="SupprimerCour" Label="supprimer" Command="{Binding SupprimerCourseCommand}" IsEnabled="{Binding IsChecked,ElementName=ListerCourTb}" />
+                </RibbonGroup>
+                <RibbonSeparator/>
+                <RibbonGroup Header="Categories">
+                    <RibbonToggleButton x:Name="ListerCatTb" LargeImageSource="Assets/category.png" Tag="ListerCategory" Label="Lister" Command="{Binding ListCategoriesCommand}" IsChecked="{Binding ListerCatTb,Mode=TwoWay}"/>
+                    <RibbonButton SmallImageSource="Assets/add.png" Tag="AjouterCategory" Label="ajouter" Command="{Binding AjouterCategoryCommand}" />
+                    <RibbonButton SmallImageSource="Assets/edit.png" Tag="ModifierCategory" Label="modifier" Command="{Binding ModifierCategoryCommand}" IsEnabled="{Binding IsChecked,ElementName=ListerCatTb}"/>
+                    <RibbonButton SmallImageSource="Assets/delete.png" Tag="SupprimerCategory" Label="supprimer" Command="{Binding SupprimerCategoryCommand}" IsEnabled="{Binding IsChecked,ElementName=ListerCatTb}"/>
+                </RibbonGroup>
+                <RibbonSeparator/>
+                <RibbonGroup Header="Cursus" >
+                    <RibbonToggleButton x:Name="ListerCurTb"  LargeImageSource="Assets/cursus.png" Tag="ListerCursus" Label="Lister" Command="{Binding ListCursusCommand}" IsChecked="{Binding ListerCusrTb,Mode=TwoWay}"/>
+                    <RibbonButton SmallImageSource="Assets/add.png" Tag="AjouterCursus" Label="ajouter" Command="{Binding AjouterCursusCommand}" />
+                    <RibbonButton SmallImageSource="Assets/edit.png" Tag="ModifierCursus" Label="modifier" Command="{Binding ModifierCursusCommand}" IsEnabled="{Binding IsChecked,ElementName=ListerCurTb}"/>
+                    <RibbonButton SmallImageSource="Assets/delete.png" Tag="SupprimerCursus" Label="supprimer" Command="{Binding SupprimerCursusCommand}" IsEnabled="{Binding IsChecked,ElementName=ListerCurTb}"/>
+                </RibbonGroup>
+                <RibbonSeparator/>
+                <RibbonGroup Header="Technologies">
+                    <RibbonToggleButton x:Name="LIsterTechTb" LargeImageSource="Assets/technology.png" Tag="ListerTech" Label="Lister" Command="{Binding ListTechnologiesCommand}" IsChecked="{Binding ListerTechTb,Mode=TwoWay}"/>
+                    <RibbonButton SmallImageSource="Assets/add.png" Tag="AjouterTech" Label="ajouter" Command="{Binding AjouterTechnologyCommand}" />
+                    <RibbonButton SmallImageSource="Assets/edit.png" Tag="ModifierTech" Label="modifier" Command="{Binding ModifierTechnologyCommand}" IsEnabled="{Binding IsChecked,ElementName=LIsterTechTb}"/>
+                    <RibbonButton SmallImageSource="Assets/delete.png" Tag="SupprimerTech"  Label="supprimer" Command="{Binding SupprimerTechnologyCommand}" IsEnabled="{Binding IsChecked,ElementName=LIsterTechTb}"/>
+                </RibbonGroup>
+                <RibbonSeparator/>
+                <RibbonGroup Header="Base de données">
+                    <RibbonButton LargeImageSource="Assets/importdb.png" Tag="ImportDb" Label="Import" Command="{Binding  ImportDataBaseCommand}"/>
+                    <RibbonButton LargeImageSource="Assets/exportdb.png" Tag="ExportDb" Label="Export" Command="{Binding ExportDataBaseCommand}"/>
+                </RibbonGroup>
+                <RibbonGroup Header="Excel" IsEnabled="False" Visibility="Hidden">
+                    <RibbonToggleButton  LargeImageSource="Assets/excel.png" Tag="ExportExcel" Label="Export" Command="{Binding }"/>
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Header="Planning" IsEnabled="True" KeyTip="p" IsSelected="{Binding PlanningTabIsSelected,Mode=TwoWay}">
+                <RibbonGroup FocusManager.IsFocusScope="False" Header="Sync">
+                    <RibbonButton  KeyTip="p" ToolTip="Importer les dates des formation a partir du service "  LargeImageSource="Assets/dataImport.png" Tag="DataImport" Label="Importer" Command="{Binding ImportDatesCommand}"/>
+                    <RibbonButton  KeyTip="a" ToolTip="Exporter les modification local vert le service"  LargeImageSource="Assets/dataExport.png" Tag="DataExport" Label="Exporter" Command="{Binding ExportDatesCommand}"/>
+                </RibbonGroup>
+                <RibbonGroup FocusManager.IsFocusScope="False" Header="Filter">
+                    <RibbonToggleButton  KeyTip="f" ToolTip="Filtrer la list des cours "  LargeImageSource="Assets/filter.png" Tag="Filter" Label="Filter" IsChecked="{Binding IsFilterVisible,Mode=TwoWay}"/>                  
+                </RibbonGroup>
+            </RibbonTab>
+        </Ribbon>
+        <Frame Grid.Row="1" x:Name="MainFrame" Background="LightGray" NavigationUIVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding MainFrameSource}" ContentRendered="MainFrame_OnSourceUpdated"/>
+    </Grid>
+</Window>

@@ -1,0 +1,118 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.ignore.com"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        xmlns:validation="clr-namespace:ITCompCatalogueApp.Validation"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:helpers="clr-namespace:ITCompCatalogueApp.Helpers"
+        x:Class="ITCompCatalogueApp.View.AjouterCourView"
+        mc:Ignorable="d ignore" Width="700" Height="auto"
+        WindowStartupLocation="CenterScreen" WindowStyle="None" >
+    <Window.DataContext>
+        <Binding Path="CoursesListViewModel" Source="{StaticResource Locator}"/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/ResourceDictionary.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <command:EventToCommand Command="{Binding Mode=OneWay,Path=AddWindowLoadedCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid Margin="5" Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid  HorizontalAlignment="Stretch" Margin="5" Background="White" VerticalAlignment="Stretch" DataContext="{Binding SelectedCourse}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/> 
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+            <Label Content="Code" Grid.Column="0" HorizontalAlignment="Left" Margin="5" Grid.Row="0" VerticalAlignment="Center"/>
+            <TextBox TabIndex="0" Grid.Column="1" HorizontalAlignment="Stretch"  Margin="5" Grid.Row="0" Text="{Binding Code, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Stretch" />
+            <Label Content="Intitulé" Grid.Column="0" HorizontalAlignment="Left" Margin="5" Grid.Row="1" VerticalAlignment="Center"/>
+            <TextBox TabIndex="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="5" Grid.Row="1" Text="{Binding Intitule, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Stretch" />
+            <Label Content="Durée" Grid.Column="0" HorizontalAlignment="Left" Margin="5" Grid.Row="2" VerticalAlignment="Center"/>
+            <TextBox TabIndex="2" Grid.Column="1" HorizontalAlignment="Stretch"  Margin="5" Grid.Row="2"  VerticalAlignment="Stretch" ><!--Validation.ErrorTemplate="{StaticResource validationTemplate}" Style="{StaticResource textBoxInError}"-->
+                <TextBox.Text>
+                    <Binding Path="Duree" Mode="TwoWay" NotifyOnValidationError="True"  UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validation:RangeValidation Min="1" Max="5"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Label Content="Niveau" Grid.Column="0" HorizontalAlignment="Left" Margin="5" Grid.Row="3" VerticalAlignment="Center"/>
+            <ComboBox TabIndex="3" Background="WhiteSmoke"  IsEditable="True"   Grid.Column="1" HorizontalAlignment="Stretch"  Margin="5" Grid.Row="3" Text="{Binding Niveau,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" >
+                <ComboBox.Items>
+                    <ComboBoxItem Content="BASIC" Background="WhiteSmoke"/>
+                    <ComboBoxItem Content="INTERMÉDIAIRE" Background="WhiteSmoke"/>
+                    <ComboBoxItem Content="AVANCÉ" Background="WhiteSmoke"/>
+                </ComboBox.Items>
+            </ComboBox>
+            <Label Content="Année" Grid.Column="0" HorizontalAlignment="Left" Margin="5" Grid.Row="4" VerticalAlignment="Center"/>
+            <TextBox TabIndex="4" Grid.Column="1" HorizontalAlignment="Stretch"  Margin="5" Grid.Row="4" VerticalAlignment="Stretch" >
+                <TextBox.Text>
+                    <Binding Path="Annee" Mode="TwoWay" NotifyOnValidationError="True"  UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validation:RangeValidation Min="-1"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Label Content="Déscription" Grid.Column="0" HorizontalAlignment="Left" Margin="5" Grid.Row="6" VerticalAlignment="Top"/>
+            <TextBox TabIndex="6" TextWrapping="Wrap" VerticalContentAlignment="Top" Grid.Column="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Hidden" HorizontalAlignment="Stretch" Margin="5,5,5,20" Grid.Row="6" Text="{Binding Description, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Stretch" />
+            <TextBox  TextWrapping="Wrap" TabIndex="6" AcceptsReturn="True" VerticalContentAlignment="Top" Grid.Column="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Hidden" HorizontalAlignment="Stretch" Margin="5,5,5,20" Grid.Row="6" Text="{Binding Description, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Stretch">
+                <!--<xctk:RichTextBoxFormatBarManager.FormatBar>
+                    <xctk:RichTextBoxFormatBar />
+                </xctk:RichTextBoxFormatBarManager.FormatBar>-->                
+            </TextBox>          
+            <Label Content="Catégorie" Grid.Column="0" HorizontalAlignment="Left" Margin="5" Grid.Row="5" VerticalAlignment="Center"/>
+            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" TextSearch.TextPath="Intitule"  ItemsPanel="{StaticResource ItemsTemplate}" TabIndex="5" IsTabStop="True" Background="WhiteSmoke"  Grid.Column="1" HorizontalAlignment="Stretch"  Margin="5" Grid.Row="5" 
+                       ItemsSource="{Binding Path=DataContext.ListCategories,RelativeSource={RelativeSource AncestorType={x:Type Window}}}" DisplayMemberPath="Intitule" SelectedValuePath="C_id"  
+                       SelectedItem="{Binding Category, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true,UpdateSourceTrigger=PropertyChanged}"                        
+                       VerticalAlignment="Stretch"/>
+        </Grid>
+        <Grid Grid.Row="1" Background="White" HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <Button TabIndex="7" Style="{StaticResource DarkStyleButton}" Grid.Column="0" Margin="5" Command="{Binding SaveCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Assets/save.png"/>
+                    <TextBlock Text="Enregistrer" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource DarkStyleButton}" TabIndex="8" Grid.Column="1" Margin="5"  Command="{Binding CloseWindowCommand}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Assets/cancel.png"/>
+                        <TextBlock Text="Annuler" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>
+    

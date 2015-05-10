@@ -1,0 +1,69 @@
+﻿<Window x:Class="ITCompCatalogueApp.View.AjouterCategoryView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.ignore.com"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        mc:Ignorable="d ignore" Width="700" Height="450"
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        DataContext="{Binding CategoriesListViewModel, Source={StaticResource Locator}}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/ResourceDictionary.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <command:EventToCommand Command="{Binding Mode=OneWay,Path=AddWindowLoadedCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid Margin="5" Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid  HorizontalAlignment="Stretch" Margin="5" Background="White" VerticalAlignment="Stretch" DataContext="{Binding SelectedCategory}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+               
+            </Grid.RowDefinitions>
+            <Label Content="Code:" Grid.Column="0" HorizontalAlignment="Left" Margin="5" Grid.Row="0" VerticalAlignment="Center"/>
+            <TextBox  Grid.Column="1" HorizontalAlignment="Stretch"  Margin="5" Grid.Row="0" Text="{Binding Code, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Stretch" />
+            <Label Content="Intitule:" Grid.Column="0" HorizontalAlignment="Left" Margin="5" Grid.Row="1" VerticalAlignment="Center"/>
+            <TextBox  Grid.Column="1" HorizontalAlignment="Stretch" Margin="5" Grid.Row="1" Text="{Binding Intitule, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Stretch" />
+            <Label Content="Technologie:" Grid.Column="0" HorizontalAlignment="Left" Margin="5" Grid.Row="2" VerticalAlignment="Center"/>
+            <ComboBox Grid.Column="1"
+                      ItemsSource="{Binding DataContext.ListTechnologies,RelativeSource={RelativeSource AncestorType={x:Type Window}}}" DisplayMemberPath="Intitule" SelectedValuePath="C_id" HorizontalAlignment="Stretch"  Margin="5" Grid.Row="2" 
+                      SelectedItem="{Binding Technology, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" />
+        </Grid>
+        <Grid Grid.Row="1" Background="White" HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource DarkStyleButton}" Grid.Column="0" Margin="5" Command="{Binding SaveCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Assets/save.png"/>
+                    <TextBlock Text="Enregistrer" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource DarkStyleButton}" Grid.Column="1" Margin="5"  Command="{Binding CloseWindowCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Assets/cancel.png"/>
+                    <TextBlock Text="Annuler" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

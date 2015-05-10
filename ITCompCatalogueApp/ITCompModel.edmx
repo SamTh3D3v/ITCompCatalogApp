@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ITCompTrainingDBModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="ISO8601" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="_id" />
+          </Key>
+          <Property Name="_id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Intitule" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="TechnologieID" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CourDate">
+          <Key>
+            <PropertyRef Name="_id" />
+          </Key>
+          <Property Name="_id" Type="integer" Nullable="false" />
+          <Property Name="CourID" Type="integer" Nullable="false" />
+          <Property Name="DateDebut" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="DateFin" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="LastDateTimeUpadted" Type="nvarchar" MaxLength="2147483647" />
+        </EntityType>
+        <EntityType Name="Cours">
+          <Key>
+            <PropertyRef Name="_id" />
+          </Key>
+          <Property Name="_id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Intitule" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Duree" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Niveau" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Annee" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="CategorieID" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cursus">
+          <Key>
+            <PropertyRef Name="_id" />
+          </Key>
+          <Property Name="_id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Intitule" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CursusCours">
+          <Key>
+            <PropertyRef Name="_id" />
+          </Key>
+          <Property Name="_id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CursusID" Type="integer" Nullable="false" />
+          <Property Name="CourID" Type="integer" Nullable="false" />
+          <Property Name="Ordre" Type="integer" Nullable="false" />
+          <Property Name="Recommandation" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Technologies">
+          <Key>
+            <PropertyRef Name="_id" />
+          </Key>
+          <Property Name="_id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Intitule" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Categories_0_0">
+          <End Role="Technologies" Type="Self.Technologies" Multiplicity="1" />
+          <End Role="Categories" Type="Self.Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Technologies">
+              <PropertyRef Name="_id" />
+            </Principal>
+            <Dependent Role="Categories">
+              <PropertyRef Name="TechnologieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cours_0_0">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="Cours" Type="Self.Cours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="_id" />
+            </Principal>
+            <Dependent Role="Cours">
+              <PropertyRef Name="CategorieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursusCours_0_0">
+          <End Role="Cours" Type="Self.Cours" Multiplicity="1" />
+          <End Role="CursusCours" Type="Self.CursusCours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cours">
+              <PropertyRef Name="_id" />
+            </Principal>
+            <Dependent Role="CursusCours">
+              <PropertyRef Name="CourID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursusCours_1_0">
+          <End Role="Cursus" Type="Self.Cursus" Multiplicity="1" />
+          <End Role="CursusCours" Type="Self.CursusCours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cursus">
+              <PropertyRef Name="_id" />
+            </Principal>
+            <Dependent Role="CursusCours">
+              <PropertyRef Name="CursusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ITCompTrainingDBModelStoreContainer">
+          <EntitySet Name="Categories" EntityType="Self.Categories" store:Type="Tables" />
+          <EntitySet Name="CourDate" EntityType="Self.CourDate" store:Type="Tables" />
+          <EntitySet Name="Cours" EntityType="Self.Cours" store:Type="Tables" />
+          <EntitySet Name="Cursus" EntityType="Self.Cursus" store:Type="Tables" />
+          <EntitySet Name="CursusCours" EntityType="Self.CursusCours" store:Type="Tables" />
+          <EntitySet Name="Technologies" EntityType="Self.Technologies" store:Type="Tables" />
+          <AssociationSet Name="FK_Categories_0_0" Association="Self.FK_Categories_0_0">
+            <End Role="Technologies" EntitySet="Technologies" />
+            <End Role="Categories" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cours_0_0" Association="Self.FK_Cours_0_0">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Cours" EntitySet="Cours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursusCours_0_0" Association="Self.FK_CursusCours_0_0">
+            <End Role="Cours" EntitySet="Cours" />
+            <End Role="CursusCours" EntitySet="CursusCours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursusCours_1_0" Association="Self.FK_CursusCours_1_0">
+            <End Role="Cursus" EntitySet="Cursus" />
+            <End Role="CursusCours" EntitySet="CursusCours" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ITCompTrainingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="C_id" />
+          </Key>
+          <Property Name="C_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Intitule" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TechnologieID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Technology" Relationship="Self.FK_Categories_0_0" FromRole="Categories" ToRole="Technologies" />
+          <NavigationProperty Name="Cours" Relationship="Self.FK_Cours_0_0" FromRole="Categories" ToRole="Cours" />
+        </EntityType>
+        <EntityType Name="Cour">
+          <Key>
+            <PropertyRef Name="C_id" />
+          </Key>
+          <Property Name="C_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Intitule" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Duree" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Niveau" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Annee" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CategorieID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_Cours_0_0" FromRole="Cours" ToRole="Categories" />
+          <NavigationProperty Name="CursusCours" Relationship="Self.FK_CursusCours_0_0" FromRole="Cours" ToRole="CursusCours" />
+          <NavigationProperty Name="CourDates" Relationship="ITCompTrainingDBModel.CourCourDate" FromRole="Cour" ToRole="CourDate" />
+        </EntityType>
+        <EntityType Name="Cursu">
+          <Key>
+            <PropertyRef Name="C_id" />
+          </Key>
+          <Property Name="C_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Intitule" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CursusCours" Relationship="Self.FK_CursusCours_1_0" FromRole="Cursus" ToRole="CursusCours" />
+        </EntityType>
+        <EntityType Name="CursusCour">
+          <Key>
+            <PropertyRef Name="C_id" />
+          </Key>
+          <Property Name="C_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CursusID" Type="Int64" Nullable="false" />
+          <Property Name="CourID" Type="Int64" Nullable="false" />
+          <Property Name="Ordre" Type="Int64" Nullable="false" />
+          <Property Name="Recommandation" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Cour" Relationship="Self.FK_CursusCours_0_0" FromRole="CursusCours" ToRole="Cours" />
+          <NavigationProperty Name="Cursu" Relationship="Self.FK_CursusCours_1_0" FromRole="CursusCours" ToRole="Cursus" />
+        </EntityType>
+        <EntityType Name="Technology">
+          <Key>
+            <PropertyRef Name="C_id" />
+          </Key>
+          <Property Name="C_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Intitule" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_Categories_0_0" FromRole="Technologies" ToRole="Categories" />
+        </EntityType>
+        <Association Name="FK_Categories_0_0">
+          <End Role="Technologies" Type="Self.Technology" Multiplicity="1" />
+          <End Role="Categories" Type="Self.Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Technologies">
+              <PropertyRef Name="C_id" />
+            </Principal>
+            <Dependent Role="Categories">
+              <PropertyRef Name="TechnologieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cours_0_0">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="Cours" Type="Self.Cour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="C_id" />
+            </Principal>
+            <Dependent Role="Cours">
+              <PropertyRef Name="CategorieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursusCours_0_0">
+          <End Role="Cours" Type="Self.Cour" Multiplicity="1" />
+          <End Role="CursusCours" Type="Self.CursusCour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cours">
+              <PropertyRef Name="C_id" />
+            </Principal>
+            <Dependent Role="CursusCours">
+              <PropertyRef Name="CourID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursusCours_1_0">
+          <End Role="Cursus" Type="Self.Cursu" Multiplicity="1" />
+          <End Role="CursusCours" Type="Self.CursusCour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cursus">
+              <PropertyRef Name="C_id" />
+            </Principal>
+            <Dependent Role="CursusCours">
+              <PropertyRef Name="CursusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ITCompTrainingDBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Cours" EntityType="Self.Cour" />
+          <EntitySet Name="Cursus" EntityType="Self.Cursu" />
+          <EntitySet Name="CursusCours" EntityType="Self.CursusCour" />
+          <EntitySet Name="Technologies" EntityType="Self.Technology" />
+          <AssociationSet Name="FK_Categories_0_0" Association="Self.FK_Categories_0_0">
+            <End Role="Technologies" EntitySet="Technologies" />
+            <End Role="Categories" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cours_0_0" Association="Self.FK_Cours_0_0">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Cours" EntitySet="Cours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursusCours_0_0" Association="Self.FK_CursusCours_0_0">
+            <End Role="Cours" EntitySet="Cours" />
+            <End Role="CursusCours" EntitySet="CursusCours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursusCours_1_0" Association="Self.FK_CursusCours_1_0">
+            <End Role="Cursus" EntitySet="Cursus" />
+            <End Role="CursusCours" EntitySet="CursusCours" />
+          </AssociationSet>
+          <EntitySet Name="CourDates" EntityType="ITCompTrainingDBModel.CourDate" />
+          <AssociationSet Name="CourCourDate" Association="ITCompTrainingDBModel.CourCourDate">
+            <End Role="Cour" EntitySet="Cours" />
+            <End Role="CourDate" EntitySet="CourDates" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CourDate">
+          <Key>
+            <PropertyRef Name="C_id" />
+          </Key>
+          <Property Name="C_id" Type="Int64" Nullable="false" />
+          <Property Name="DateDebut" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="DateFin" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="LastDateTimeUpadted" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cour" Relationship="ITCompTrainingDBModel.CourCourDate" FromRole="CourDate" ToRole="Cour" />
+          <Property Name="CourID" Type="Int64" Nullable="false" />
+        </EntityType>
+        <Association Name="CourCourDate">
+          <End Type="ITCompTrainingDBModel.Cour" Role="Cour" Multiplicity="1" />
+          <End Type="ITCompTrainingDBModel.CourDate" Role="CourDate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cour">
+              <PropertyRef Name="C_id" />
+            </Principal>
+            <Dependent Role="CourDate">
+              <PropertyRef Name="CourID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ITCompTrainingDBModelStoreContainer" CdmEntityContainer="ITCompTrainingDBEntities1">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="ITCompTrainingDBModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Intitule" ColumnName="Intitule" />
+                <ScalarProperty Name="TechnologieID" ColumnName="TechnologieID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cours">
+            <EntityTypeMapping TypeName="ITCompTrainingDBModel.Cour">
+              <MappingFragment StoreEntitySet="Cours">
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Intitule" ColumnName="Intitule" />
+                <ScalarProperty Name="Duree" ColumnName="Duree" />
+                <ScalarProperty Name="Niveau" ColumnName="Niveau" />
+                <ScalarProperty Name="Annee" ColumnName="Annee" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategorieID" ColumnName="CategorieID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cursus">
+            <EntityTypeMapping TypeName="ITCompTrainingDBModel.Cursu">
+              <MappingFragment StoreEntitySet="Cursus">
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Intitule" ColumnName="Intitule" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CursusCours">
+            <EntityTypeMapping TypeName="ITCompTrainingDBModel.CursusCour">
+              <MappingFragment StoreEntitySet="CursusCours">
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+                <ScalarProperty Name="CursusID" ColumnName="CursusID" />
+                <ScalarProperty Name="CourID" ColumnName="CourID" />
+                <ScalarProperty Name="Ordre" ColumnName="Ordre" />
+                <ScalarProperty Name="Recommandation" ColumnName="Recommandation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Technologies">
+            <EntityTypeMapping TypeName="ITCompTrainingDBModel.Technology">
+              <MappingFragment StoreEntitySet="Technologies">
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Intitule" ColumnName="Intitule" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourDates">
+            <EntityTypeMapping TypeName="ITCompTrainingDBModel.CourDate">
+              <MappingFragment StoreEntitySet="CourDate">
+                <ScalarProperty Name="CourID" ColumnName="CourID" />
+                <ScalarProperty Name="LastDateTimeUpadted" ColumnName="LastDateTimeUpadted" />
+                <ScalarProperty Name="DateFin" ColumnName="DateFin" />
+                <ScalarProperty Name="DateDebut" ColumnName="DateDebut" />
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
