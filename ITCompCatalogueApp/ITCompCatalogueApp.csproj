@@ -186,6 +186,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ITCompModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\CourDate.cs" />
     <Compile Include="Model\SearchItem.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Technology.cs">
@@ -397,6 +398,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ITCompLogo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets')" />

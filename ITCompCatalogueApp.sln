@@ -8,18 +8,6 @@ EndProject
 Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "CatalogueInstaller", "CatalogueInstaller\CatalogueInstaller.isproj", "{590B833C-A876-486E-87E7-F62134C64DA3}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://tfs2010:8080/tfs/itcomp
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ITCompCatalogueApp\\ITCompCatalogueApp.csproj
-		SccProjectName1 = ITCompCatalogueApp
-		SccLocalPath1 = ITCompCatalogueApp
-		SccProjectUniqueName2 = CatalogueInstaller\\CatalogueInstaller.isproj
-		SccProjectName2 = CatalogueInstaller
-		SccLocalPath2 = CatalogueInstaller
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
 		Debug|Any CPU = Debug|Any CPU

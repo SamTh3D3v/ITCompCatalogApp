@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using GalaSoft.MvvmLight.Threading;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace ITCompCatalogueApp
 {
@@ -9,10 +10,10 @@ namespace ITCompCatalogueApp
     /// </summary>
     public partial class App : Application
     {
-        //static App()
-        //{
-            
-        //}
+        public static MobileServiceClient MobileService = new MobileServiceClient(
+              "https://itcomp.azure-mobile.net/",
+              "yVPxEZZRocOBOdhMNrUqvHqrRlkkNl68"
+        );
         public App()
             : base()
         {

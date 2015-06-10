@@ -257,11 +257,15 @@ namespace ITCompCatalogueApp.ViewModel
             get
             {
                 return _planningViewLoadedCommand
-                    ?? (_planningViewLoadedCommand = new RelayCommand(
-                    () =>
+                    ?? (_planningViewLoadedCommand = new RelayCommand(async () =>
                     {
                         
-                        _backgroudWorker.RunWorkerAsync();
+                        //_backgroudWorker.RunWorkerAsync();
+                        MobileServiceCollection<Model.CourDate, Model.CourDate> items;
+                        IMobileServiceTable<Model.CourDate> todoTable = App.MobileService.GetTable<Model.CourDate>();
+                        items = await todoTable.ToCollectionAsync();
+                        
+
                     }));
             }
         }
@@ -284,6 +288,7 @@ namespace ITCompCatalogueApp.ViewModel
             });
             _backgroudWorker.DoWork += LoadCourses;
             _backgroudWorker.RunWorkerCompleted += LoadingCompleted;
+            
 
         }
 
